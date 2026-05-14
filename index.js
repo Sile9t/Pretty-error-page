@@ -18,8 +18,12 @@ let calculateAngle = function(e, item, parent) {
     let gX = (1 - (x / (halfWidth * 2))) * 100;
     let gY = (1 - (y / (halfHeight * 2))) * 100;
     
-    parent.style.perspective = `${halfWidth * 6}px`
-    item.style.perspective = `${halfWidth * 6}px`
+    parent.style.perspective = `${halfWidth * 6}px`;
+    item.style.perspective = `${halfWidth * 6}px`;
+    
+    if (item.classList.contains('glitch')) {
+        item.dataset.perspective = `${halfWidth * 6}px`;
+    }
 
     item.style.transform = `rotateY(${calcAngleX}deg) rotateX(${-calcAngleY}deg) scale(1.04)`;
 }
@@ -27,10 +31,12 @@ let calculateAngle = function(e, item, parent) {
 document.querySelectorAll('.card').forEach(function(item) {
     item.addEventListener('mouseenter', function(e) {
         calculateAngle(e, this.querySelector('.inner-card'), this);
+        calculateAngle(e, this.querySelector('.glitch'), this);
     });
 
     item.addEventListener('mousemove', function(e) {
         calculateAngle(e, this.querySelector('.inner-card'), this);
+        calculateAngle(e, this.querySelector('.glitch'), this);
     });
 
     item.addEventListener('mouseleave', function(e) {
@@ -41,5 +47,6 @@ document.querySelectorAll('.card').forEach(function(item) {
         item.classList.remove('animated');
         item.querySelector('.inner-card').style.transform = `rotateY(0deg) rotateX(0deg) scale(1)`;
         item.querySelector('.inner-card').style.filter = `drop-shadow(0 10px 15px ${dropShadowColor})`;
+        item.querySelector('.glitch').style.transform = `rotateY(0deg) rotateX(0deg) scale(1)`;
     });
 })
